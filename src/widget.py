@@ -1,7 +1,7 @@
 from masks import get_mask_card_number
 
 
-def mask_account_card(string: str) -> str:
+def mask_account_card(string: str) -> tuple[str, str]:
     """Функция маскировки счета и номера карты."""
     string_split = string.split()
     name_card = " ".join(string_split[:-1])
