@@ -1,4 +1,7 @@
-import masks
+from src.masks import get_mask_card_number
+
+
+from src.masks import get_mask_account
 
 
 def mask_account_card(card_account_number: str) -> str:
@@ -15,14 +18,14 @@ def mask_account_card(card_account_number: str) -> str:
         if len(string_split) != 2 or len(string_split[-1]) != 20:
             return "Некорректный формат счета"
         account_number = string_split[-1]
-        masked_number = masks.get_mask_account(account_number)
+        masked_number = get_mask_account(account_number)
         return f"Счет {masked_number}"
     else:
         # Обрабатываем карту
         if len(string_split) < 2 or len(string_split[-1]) != 16:
             return "Некорректный формат карты"
         card_number = string_split[-1]
-        masked_number = masks.get_mask_card_number(card_number)
+        masked_number = get_mask_card_number(card_number)
         card_name = " ".join(string_split[:-1])
         return f"{card_name} {masked_number}"
 
@@ -44,12 +47,5 @@ def get_date(date_string: str) -> str:
         formatted_date = f"{day}.{month}.{year}"
         return formatted_date
     except (IndexError, ValueError):
+
         return "Некорректный формат даты"
-
-card_exemple = "Visa Platinum 7000792289606361"
-card_exemple2 = "Счет 64686473678894779589"
-date = "2024-03-11T02:26:18.671407"
-
-print(mask_account_card(card_exemple))
-print(mask_account_card(card_exemple2))
-print(get_date(date))
