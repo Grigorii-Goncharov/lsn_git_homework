@@ -1,4 +1,4 @@
-from src.masks import get_mask_card_number, get_mask_account
+from src.masks import get_mask_account, get_mask_card_number
 
 
 def mask_account_card(card_account_number: str) -> str:
@@ -29,19 +29,17 @@ def mask_account_card(card_account_number: str) -> str:
 
 def get_date(date_string: str) -> str:
     """Функция вывода даты"""
-    try:
-        # Разделяем дату и время
-        date_part = date_string.split("T")[0]
 
-        # Разделяем дату на год, месяц и день
-        year, month, day = date_part.split("-")
+    # Разделяем дату и время
+    date_part = date_string.split("T")[0]
 
-        # Проверяем, что год, месяц и день являются числами
-        if not (year.isdigit() and month.isdigit() and day.isdigit()):
-            return "Некорректный формат даты"
+    # Разделяем дату на год, месяц и день
+    year, month, day = date_part.split("-")
 
-        # Формируем строку с датой в нужном формате
-        formatted_date = f"{day}.{month}.{year}"
-        return formatted_date
-    except (IndexError, ValueError):
+    # Проверяем, что год, месяц и день являются числами
+    if not (year.isdigit() and month.isdigit() and day.isdigit()):
         raise ValueError("Некорректный формат даты")
+
+    # Формируем строку с датой в нужном формате
+    formatted_date = f"{day}.{month}.{year}"
+    return formatted_date
