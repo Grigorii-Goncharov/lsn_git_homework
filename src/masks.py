@@ -18,10 +18,3 @@ def get_mask_account(account_number: str) -> str:
     masked_account_number = f"**{string[-4:]}"
 
     return masked_account_number
-
-
-card_exemple = "7000792289606341"
-account_exemple = "73654108430135874305"
-
-print(get_mask_card_number(card_exemple))
-print(get_mask_account(account_exemple))

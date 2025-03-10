@@ -1,7 +1,4 @@
-from src.masks import get_mask_card_number
-
-
-from src.masks import get_mask_account
+from src.masks import get_mask_card_number, get_mask_account
 
 
 def mask_account_card(card_account_number: str) -> str:
@@ -11,19 +8,19 @@ def mask_account_card(card_account_number: str) -> str:
 
     # Проверяем, является ли последний элемент числом (номер карты или счета)
     if not string_split[-1].isdigit():
-        return "Некорректный формат: отсутствует номер карты или счета"
+        raise ValueError("Некорректный формат: отсутствует номер карты или счета")
 
     # Определяем тип (карта или счет)
     if "Счет" in card_account_number:
         if len(string_split) != 2 or len(string_split[-1]) != 20:
-            return "Некорректный формат счета"
+            raise ValueError("Некорректный формат счета")
         account_number = string_split[-1]
         masked_number = get_mask_account(account_number)
         return f"Счет {masked_number}"
     else:
         # Обрабатываем карту
         if len(string_split) < 2 or len(string_split[-1]) != 16:
-            return "Некорректный формат карты"
+            raise ValueError("Некорректный формат карты")
         card_number = string_split[-1]
         masked_number = get_mask_card_number(card_number)
         card_name = " ".join(string_split[:-1])
@@ -47,5 +44,4 @@ def get_date(date_string: str) -> str:
         formatted_date = f"{day}.{month}.{year}"
         return formatted_date
     except (IndexError, ValueError):
-
-        return "Некорректный формат даты"
+        raise ValueError("Некорректный формат даты")
