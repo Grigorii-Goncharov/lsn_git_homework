@@ -12,7 +12,7 @@ pip install poetry
 ```
 3. Клонируйте репозиторий:
 ```
-git clone git@github.com:SidorovDmitry/homework_10_1.git
+git clone https://github.com/Grigorii-Goncharov/lsn_git_homework.git
 ```
 4. Перейдите в директорию проекта:
 ```
