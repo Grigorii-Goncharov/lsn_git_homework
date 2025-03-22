@@ -18,19 +18,19 @@ def test_mask_card_number(test_string: str, expected: str) -> None:
 
 # тестирование ввода номера карты короче 16 символов
 def test_invalid_short_string(test_string: str) -> None:
-    with pytest.raises(ValueError) as exc_info:
+    with pytest.raises(ValueError):
         get_mask_card_number(test_string[:-1])
 
 
 # тестирование ввода номера карты больше 16 символов
 def test_invalid_long_string(test_string: str) -> None:
-    with pytest.raises(ValueError) as exc_info:
+    with pytest.raises(ValueError):
         get_mask_card_number(test_string + "1")
 
 
 # тестирование ввода номера карты пустая строка
 def test_invalid_empty_string() -> None:
-    with pytest.raises(ValueError) as exc_info:
+    with pytest.raises(ValueError):
         get_mask_card_number("")
 
 
@@ -49,17 +49,17 @@ def test_mask_account_number(test_account_string: str, expected: str) -> None:
 
 # тестирование ввода номера счёта короче 20 символов
 def test_invalid_short_account_number(test_account_string: str) -> None:
-    with pytest.raises(ValueError) as exc_info:
+    with pytest.raises(ValueError):
         get_mask_account(test_account_string[:-1])
 
 
 # тестирование ввода номера счёта больше 20 символов
-def test_invalid_long_account_number(test_account_string: str)-> None:
-    with pytest.raises(ValueError) as exc_info:
+def test_invalid_long_account_number(test_account_string: str) -> None:
+    with pytest.raises(ValueError):
         get_mask_account(test_account_string + "1")
 
 
 # тестирование ввода номера счёта пустая строка
 def test_invalid_empty_account_number() -> None:
-    with pytest.raises(ValueError) as exc_info:
+    with pytest.raises(ValueError):
         get_mask_account("")

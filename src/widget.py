@@ -1,45 +1,51 @@
 from src.masks import get_mask_account, get_mask_card_number
 
 
-def mask_account_card(card_account_number: str) -> str:
-    """Функция маскировки счета и номера карты."""
+def mask_account_card(user_bank_details: str) -> str:
+    """функция обрабатывает информацию о карте или счете клиента и маскирует номер"""
 
-    string_split = card_account_number.split()
+    numbers_bank_details = ""  # инициализация пустой строки для номера карты/счета
+    name_bank_details = ""  # инициализация пустой строки для имени карты/счета
 
-    # Проверяем, является ли последний элемент числом (номер карты или счета)
-    if not string_split[-1].isdigit():
-        raise ValueError("Некорректный формат: отсутствует номер карты или счета")
-
-    # Определяем тип (карта или счет)
-    if "Счет" in card_account_number:
-        if len(string_split) != 2 or len(string_split[-1]) != 20:
-            raise ValueError("Некорректный формат счета")
-        account_number = string_split[-1]
-        masked_number = get_mask_account(account_number)
-        return f"Счет {masked_number}"
+    for char in user_bank_details:  # итерация по символам строки
+        if char.isdigit():  # проверка на цифру и добавление в строку с номером
+            numbers_bank_details += char
+        elif char.isalpha() or char.isspace():  # Проверка на букву или пробел и добавление в строку с именем
+            name_bank_details += char
+    name_bank_details = name_bank_details.strip()  # Удаление лишних пробелов
+    if len(numbers_bank_details) == 16:  # проверка по количеству цифр номера карты и маскировка номера
+        masked_card_number = f"{name_bank_details} {get_mask_card_number(numbers_bank_details)}"
+        return masked_card_number
+    elif len(numbers_bank_details) == 20:
+        # Используем функцию get_mask_account для маскировки номера счета
+        masked_account_number = f"{name_bank_details} {get_mask_account(numbers_bank_details)}"
+        return masked_account_number
     else:
-        # Обрабатываем карту
-        if len(string_split) < 2 or len(string_split[-1]) != 16:
-            raise ValueError("Некорректный формат карты")
-        card_number = string_split[-1]
-        masked_number = get_mask_card_number(card_number)
-        card_name = " ".join(string_split[:-1])
-        return f"{card_name} {masked_number}"
+        return "Неверный формат номера карты или счета"
 
 
 def get_date(date_string: str) -> str:
-    """Функция вывода даты"""
+    """функция преобразует дату в формат 'ДД.ММ.ГГГГ'"""
 
-    # Разделяем дату и время
-    date_part = date_string.split("T")[0]
+    # Проверка на пустую строку
+    if not date_string:
+        raise ValueError("Дата не может быть пустой строкой.")
 
-    # Разделяем дату на год, месяц и день
-    year, month, day = date_part.split("-")
+    # Проверка на корректный формат даты
+    if "T" not in date_string:
+        raise ValueError("Некорректный формат даты. Ожидается 'ГГГГ-ММ-ДДTЧЧ:ММ:СС'.")
 
-    # Проверяем, что год, месяц и день являются числами
-    if not (year.isdigit() and month.isdigit() and day.isdigit()):
-        raise ValueError("Некорректный формат даты")
+    # Разделение строки на 2 части по "Т", а также по "-" части строки с индексом 0
+    split_date_string = date_string.split("T")[0].split("-")
 
-    # Формируем строку с датой в нужном формате
+    # Проверка на корректное количество частей
+    if len(split_date_string) != 3:
+        raise ValueError("Некорректный формат даты. Ожидается 'ГГГГ-ММ-ДД'.")
+
+    # Извлечение год, месяц, день
+    year, month, day = split_date_string
+
+    # Форматирование даты в нужный формат
     formatted_date = f"{day}.{month}.{year}"
+
     return formatted_date
