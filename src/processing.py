@@ -1,4 +1,8 @@
-def filter_by_state(list_dict: list[dict], state: str = "EXECUTED") -> list[dict]:
+from datetime import datetime
+from typing import Any
+
+
+def filter_by_state(list_dict: list[Any], state: str = "EXECUTED") -> list[Any]:
     """Функция фильтрует данные по указанному параметру 'state'"""
 
     new_list = []
@@ -8,8 +12,13 @@ def filter_by_state(list_dict: list[dict], state: str = "EXECUTED") -> list[dict
     return new_list
 
 
-def sort_by_date(list_dict: list[dict], value_sort: bool = True) -> list[dict]:
+def sort_by_date(list_dict: list[Any], value_sort: bool = True) -> list[Any]:
     """Функция сортирует список словарей по дате"""
+    for item in list_dict:
+        try:
+            datetime.fromisoformat(item["date"])
+        except ValueError:
+            raise ValueError(f"Некорректный формат даты: {item['date']}")
 
     sort_list = sorted(list_dict, key=lambda x: x["date"], reverse=value_sort)
     return sort_list
