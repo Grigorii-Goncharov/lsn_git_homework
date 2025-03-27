@@ -1,89 +1,116 @@
 
 # практика SKYPRO Разработка на Python  Проект "*Банковских операции клиента*"
 
+Этот проект предоставляет инструменты для работы с банковскими данными, такими как маскировка номеров карт и счетов, форматирование дат, фильтрация и сортировка данных о транзакциях.
+
 ## Описание
-#### Этот проект предоставляет инструменты для работы с транзакциями, включая фильтрацию и сортировку, а так же маскировку номера карт/счетов.
 
-## Установка:
-1. Убедитесь, что у вас установлен Python 3.13 или выше.
-2. Установите Poetry, если он еще не установлен:
-```
-pip install poetry
-```
-3. Клонируйте репозиторий:
-```
-git clone https://github.com/Grigorii-Goncharov/lsn_git_homework.git
-```
-4. Перейдите в директорию проекта:
-```
-cd homework_10_1
-```
-5. Установите зависимостис помощью Poetry:
-```
-poetry install
-```
-6. Активируйте виртуальное окружение:
-```
-poetry shell
-```
-## Использование:
+Проект состоит из следующих функций:
 
-Основные модули
-* masks.py: Содержит функции для маскировки номеров карт и счетов.
-* processing.py: Содержит функции для фильтрации и сортировки транзакций.
-* widget.py: Основной модуль для взаимодействия с пользователем.
+-   `get_mask_card_number(user_card_number: str) -> str`: Маскирует номер карты, показывая только первые 6 и последние 4 цифры.
+-   `get_mask_account(user_account_number: str) -> str`: Маскирует номер счета, показывая только последние 4 цифры.
+-   `mask_account_card(user_bank_details: str) -> str`: Обрабатывает информацию о карте или счете клиента и маскирует номер.
+-   `get_date(date_string: str) -> str`: Преобразует дату в формат 'ДД.ММ.ГГГГ'.
+-   `filter_by_state(list_dict_info: List[Dict], state: str = "EXECUTED") -> List[Dict]`: Фильтрует список словарей на основе указанного параметра `state`.
+-   `sort_by_date(list_dict: List[Dict], reverse: bool = True) -> List[Dict]`: Сортирует список словарей на основе ключа 'date'.
 
-Пример использования:
+## Установка
 
-*Фильтрация транзакций по state*
-```
-from src.processing import filter_by_state
-transactions = [
-    {"id": 1, "state": "EXECUTED", "amount": 100},
-    {"id": 2, "state": "PENDING", "amount": 200},
-    {"id": 3, "state": "EXECUTED", "amount": 300},
+Для установки и запуска проекта необходимо выполнить следующие шаги:
+
+1.  **Клонируйте репозиторий:**
+
+    ```
+    git clone git@github.com:Grigorii-Goncharov/lsn_git_homework.git
+    ```
+
+2.  **Перейдите в папку проекта:**
+
+    ```
+    cd project_bank
+    ```
+
+3.  **Установите зависимости с помощью Poetry:**
+
+    ```
+    poetry install
+    poetry add --group lint flake8
+    poetry add --group lint mypy
+    poetry add --group lint black
+    poetry add --group lint isort
+    poetry add --group dev pytest
+    ```
+
+## Использование
+
+Примеры использования функций:
+
+~~~
+from src.widget import get_mask_card_number, get_mask_account, mask_account_card, get_date, filter_by_state, sort_by_date
+from typing import Dict, List
+
+Маскировка номера карты
+card_number = "6831982470375048"
+masked_card = get_mask_card_number(card_number)
+print(f"Masked card number: {masked_card}") # Output: 6831 98** **** 5048
+
+Маскировка номера счета
+account_number = "12345678901234567890"
+masked_account = get_mask_account(account_number)
+print(f"Masked account number: {masked_account}") # Output: **7890
+
+Маскировка информации о карте/счете
+bank_details = "Visa Classic 6831982470375048"
+masked_details = mask_account_card(bank_details)
+print(f"Masked details: {masked_details}") # Output: Visa Classic 6831 98** **** 5048
+
+Преобразование даты
+date_string = "2023-10-26T00:00:00"
+formatted_date = get_date(date_string)
+print(f"Formatted date: {formatted_date}") # Output: 26.10.2023
+
+Пример данных для фильтрации и сортировки
+transactions: List[Dict] = [
+{"id": 1, "date": "2023-10-27T10:00:00", "state": "EXECUTED", "amount": 100},
+{"id": 2, "date": "2023-10-26T12:00:00", "state": "CANCELED", "amount": 50},
+{"id": 3, "date": "2023-10-28T14:00:00", "state": "EXECUTED", "amount": 200},
 ]
-filtered_transactions = filter_by_state(transactions)
-print(filtered_transactions)
-```
-*Сортировка транзакций по дате*
-```
-from src.processing import sort_by_date
-transactions = [
-    {"id": 1, "date": "2024-03-11T02:26:18.671407", "amount": 100},
-    {"id": 2, "date": "2024-02-15T12:30:45.123456", "amount": 200},
-    {"id": 3, "date": "2024-04-01T08:15:30.987654", "amount": 300},
-]
+
+Фильтрация по статусу
+executed_transactions = filter_by_state(transactions, state="EXECUTED")
+print(f"Executed transactions: {executed_transactions}")
+
+Сортировка по дате
 sorted_transactions = sort_by_date(transactions)
-print(sorted_transactions)
-```
-## Структура проекта
-
-```
-├── src/
-│   ├── __init__.py               # Пустой файл для создания пакета
-│   ├── masks.py                  # Функции для маскировки карт и счетов
-│   ├── processing.py             # Функции для обработки транзакций
-│   ├── widget.py                 # Основной модуль для взаимодействия с пользователем
-│   └── tests/                    # Папка для тестов (пока пустая)
-│       └── __init__.py           # Пустой файл для создания пакета
-├── .flake8                       # Конфигурация Flake8 (линтер)
-├── .gitignore                    # Файл для игнорирования файлов в Git
-├── main.py                       # Основной скрипт для запуска проекта
-├── poetry.lock                   # Файл блокировки Poetry
-├── pyproject.toml                # Конфигурация Poetry
-└── README.md                     # Описание проекта
-```
-## Зависимости
-Зависимости проекта управляются через Poetry. Они перечислены в файле `pyproject.toml`
+print(f"Sorted transactions: {sorted_transactions}")
+~~~
 
 ## Тестирование
-Для запуска тестов используйте команду:
 
-## Документация:
-Для получения дополнительной информации обратитесь к [документации](docs/README.md).
+В проекте используются тесты, написанные с использованием `pytest`. Для запуска тестов выполните следующие шаги:
 
-## Лицензия:
+1. **Убедитесь, что установлены все зависимости (см. раздел "Установка").**
+2. **Активируйте виртуальное окружение Poetry:**
+
+~~~
+    poetry env activate   
+~~~
+3. **Запустите тесты с помощью команды `pytest`:**
+
+~~~
+    pytest tests   
+~~~
+
+
+## Зависимости
+
+Проект использует следующие зависимости:
+
+*   Python 3.12.4
+*   Poetry (для управления зависимостями)
+
+
+## Лицензия
 
 Этот проект лицензирован по [лицензии MIT](LICENSE).
 

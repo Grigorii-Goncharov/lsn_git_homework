@@ -1,0 +1,62 @@
+import pytest
+
+from src.widget import get_date, mask_account_card
+
+
+# Параметризация для проверки различных кейсов функции маскировки номера карты и счета
+@pytest.mark.parametrize(
+    "bank_details, expected",
+    [
+        ("Visa Classic 1234567890123456", "Visa Classic 1234 56** **** 3456"),
+        ("Mastercard 9876543210987654", "Mastercard 9876 54** **** 7654"),
+        ("Счет 12345678901234567890", "Счет **7890"),
+    ],
+)
+def test_mask_account_card(bank_details: str, expected: str) -> None:
+    assert mask_account_card(bank_details) == expected
+
+
+# Тест на некорректные данные (номер карты/счета неверной длины)
+def test_mask_account_card_invalid_length() -> None:
+    assert mask_account_card("Visa 1234567890123") == "Неверный формат номера карты или счета"
+
+
+# Тест на пустую строку
+def test_mask_account_card_empty() -> None:
+    assert mask_account_card("") == "Неверный формат номера карты или счета"
+
+
+# Тест на строку без цифр
+def test_mask_account_card_no_numbers() -> None:
+    assert mask_account_card("Visa Classic") == "Неверный формат номера карты или счета"
+
+
+# Параметризация для разных форматов даты
+@pytest.mark.parametrize(
+    "test_data_string, expected",
+    [
+        ("2023-11-18T00:00:00", "18.11.2023"),
+        ("2024-10-26T00:00:00", "26.10.2024"),
+        ("2025-01-01T17:00:00", "01.01.2025"),
+    ],
+)
+def test_get_date(test_data_string: str, expected: str) -> None:
+    assert get_date(test_data_string) == expected
+
+
+# Тест на некорректные данные (неправильный формат даты)
+def test_get_date_invalid_format() -> None:
+    with pytest.raises(ValueError):
+        get_date("26.10.2023T00:00:00")
+
+
+# Тест на пустую строку
+def test_get_date_empty() -> None:
+    with pytest.raises(ValueError):
+        get_date("")
+
+
+# Тест на строку без разделителя "T"
+def test_get_date_no_t_separator() -> None:
+    with pytest.raises(ValueError):
+        get_date("2023-10-26")
