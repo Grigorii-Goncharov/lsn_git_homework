@@ -14,12 +14,7 @@ def test_filter_by_currency_valid(currency_basic: List[Dict[str, Any]], currency
     assert result == currency_basic
 
 
-@pytest.mark.parametrize("currency, expected", [
-    ("USD", 2),
-    ("RUB", 1),
-    ("EUR", 1),
-    ("AED", 0)
-])
+@pytest.mark.parametrize("currency, expected", [("USD", 2), ("RUB", 1), ("EUR", 1), ("AED", 0)])
 def test_filter_by_currency_invalid(currency_average: List[Dict[str, Any]], currency: str, expected: int) -> None:
     """Тест проверяющий, что функция корректно обрабатывает случаи когда не транзакции в заданной валюте
     отсутствуют"""
@@ -35,6 +30,7 @@ def test_filter_by_currency_empty() -> None:
 
 # Тесты для функции transaction_descriptions
 
+
 def test_transaction_descriptions_valid(currency_average: List[Dict[str, Any]]) -> None:
     """Тест проверяющий, что функция возвращает корректные описания для каждой транзакции"""
 
@@ -43,10 +39,10 @@ def test_transaction_descriptions_valid(currency_average: List[Dict[str, Any]]) 
     assert result == expected_str
 
 
-@pytest.mark.parametrize("expected_description", [
-    ["Перевод организации", "Перевод со счета на счет",
-     "Перевод с карты на карту", "Оплата услуг"]
-])
+@pytest.mark.parametrize(
+    "expected_description",
+    [["Перевод организации", "Перевод со счета на счет", "Перевод с карты на карту", "Оплата услуг"]],
+)
 def test_transaction_descriptions(currency_average: List[dict[str, Any]], expected_description: List[str]) -> None:
     """Тест проверяющий работу функции генератора с различными входными данными"""
 
@@ -66,12 +62,14 @@ def test_transaction_descriptions_empty() -> None:
 
 def test_card_number_generator() -> None:
     """Тест проверяющий правильную работу генератора карт"""
+
     generator = card_number_generator(1, 1)
     assert next(generator) == "0000 0000 0000 0001"
 
 
 def test_card_number_generator_range() -> None:
     """Тест проверяющий правильную работу заданного диапазона карт"""
+
     generator = card_number_generator(1, 5)
     numbers = list(generator)
     assert len(numbers) == 5
@@ -81,6 +79,7 @@ def test_card_number_generator_range() -> None:
 
 def test_card_number_generator_min_max_value() -> None:
     """Тест проверку правильности работы минимального и максимального значения карт"""
+
     generator_min = card_number_generator(0, 0)
     generator_max = card_number_generator(9999999999999999, 9999999999999999)
     assert next(generator_min) == "0000 0000 0000 0000"
