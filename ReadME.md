@@ -13,7 +13,10 @@
 -   `get_date(date_string: str) -> str`: Преобразует дату в формат 'ДД.ММ.ГГГГ'.
 -   `filter_by_state(list_dict_info: List[Dict], state: str = "EXECUTED") -> List[Dict]`: Фильтрует список словарей на основе указанного параметра `state`.
 -   `sort_by_date(list_dict: List[Dict], reverse: bool = True) -> List[Dict]`: Сортирует список словарей на основе ключа 'date'.
-
+-   `filter_by_currency(transactions: list[dict[str, Any]], currency: str = "USD") -> Iterator[dict[str, Any]]`: Выдает транзакции если они соответствуют заданной валюте
+-   `transaction_descriptions(transactions: list[dict[str, Any]]) -> Iterator[str]`: Возвращает описание каждой операции (транзакции) по очереди
+-   `card_number_generator(start: int, stop: int) -> Generator[str, None, None]`: генератор номеров банковских карт в формате XXXX XXXX XXXX XXXX, где X— цифра номера карты и возвращает номера корт"
+    
 ## Установка
 
 Для установки и запуска проекта необходимо выполнить следующие шаги:
