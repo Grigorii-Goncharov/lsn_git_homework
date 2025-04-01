@@ -15,8 +15,8 @@
 -   `sort_by_date(list_dict: List[Dict], reverse: bool = True) -> List[Dict]`: Сортирует список словарей на основе ключа 'date'.
 -   `filter_by_currency(transactions: list[dict[str, Any]], currency: str = "USD") -> Iterator[dict[str, Any]]`: Выдает транзакции если они соответствуют заданной валюте
 -   `transaction_descriptions(transactions: list[dict[str, Any]]) -> Iterator[str]`: Возвращает описание каждой операции (транзакции) по очереди
--   `card_number_generator(start: int, stop: int) -> Generator[str, None, None]`: генератор номеров банковских карт в формате XXXX XXXX XXXX XXXX, где X— цифра номера карты и возвращает номера корт"
-    
+-   `card_number_generator(start: int, stop: int) -> Generator[str, None, None]`: Генератор номеров банковских карт в формате XXXX XXXX XXXX XXXX, где X— цифра номера карты и возвращает номера корт"
+-   `def log(filename="mylog.txt")`: Декоратор функций, который производит логирование работы функций.    
 ## Установка
 
 Для установки и запуска проекта необходимо выполнить следующие шаги:
@@ -86,6 +86,12 @@ print(f"Executed transactions: {executed_transactions}")
 Сортировка по дате
 sorted_transactions = sort_by_date(transactions)
 print(f"Sorted transactions: {sorted_transactions}")
+
+Декоратор `log`, который логирует выполнение функций. Пример использования декоратора: 
+@log(filename="mylog.txt")
+def my_function(x, y):
+    return x + y
+my_function(1, 2)
 ~~~
 
 ## Тестирование
