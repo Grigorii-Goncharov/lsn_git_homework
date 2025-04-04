@@ -9,23 +9,27 @@ def log(filename=None):
 
         @wraps(func)
         def inner(*args, **kwargs):
-            """Функиия, ведущая запись лога"""
+            """Функция, ведущая запись лога"""
             try:
-                result = func(*args, **kwargs)
+                result = func(*args, **kwargs)  # Вызываем функцию один раз
+                message = (
+                    f"\n{func.__name__} Запуск Ok. Входные параметры: {args}, {kwargs}."
+                    f"\n{func.__name__} Завершение. Результат: {result}."
+                )
                 if filename:
                     with open(filename, "a", encoding="utf-8") as file:
-                        file.write(
-                            f'\n{func.__name__} started Ok. with Inputs: {args}, {kwargs}.\n{func.__name__} finished at result {func(*args, **kwargs)}.')
+                        file.write(message)
                 else:
-                    print(
-                        f'\n{func.__name__} started Ok. with Inputs: {args}, {kwargs}.\n{func.__name__} finished at result {func(*args, **kwargs)}.')
+                    print(message)
                 return result
             except Exception as error:
+                error_message = f"\n{func.__name__} Ошибка: {error}. Входные параметры: {args}, {kwargs}"
                 if filename:
                     with open(filename, "a", encoding="utf-8") as file:
-                        file.write(f'{func.__name__} ошибка: {error}. Inputs: {args}, {kwargs}')
+                        file.write(error_message)
                 else:
-                    print(f'{func.__name__} ok. Inputs:{args}, {kwargs}')
+                    print(error_message)
+                raise  # Пробрасываем исключение дальше
 
         return inner
 
