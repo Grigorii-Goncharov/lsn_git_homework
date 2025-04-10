@@ -1,71 +1,34 @@
-import json
-import requests
-from dotenv import load_dotenv
 import os
 
+import requests
+from dotenv import load_dotenv
+
+# Загрузка переменных из .env-файла
 load_dotenv()
-API_KEY = os.getenv('API')
-
-MY_KEY_API = 'API'  # Не забудьте вставить свой API ключ'
+API_KEY = os.getenv("API_KEY")
 
 
-def currency_exchange(output_code: str, input_code: str, amount: int | float) -> list[dict]:
-    '''Функция конвертации любой валюты'''
-    url = f"https://api.apilayer.com/exchangerates_data/convert?to={input_code}&from={output_code}&amount={amount}"
+def convert_amount(transactions_finance, to_currency="RUB"):
+    """Функция конвертации валют в другую валюту, по умолчанию конвертирует в RUB"""
 
-    headers = {
-        "apikey": API_KEY
-    }
+    value = float(transactions_finance["operationAmount"]["amount"])
+    from_currency = transactions_finance["operationAmount"]["currency"]["code"]
 
-    response = requests.get(url, headers=headers)
+    if from_currency == to_currency:
+        return value
 
-    if response.status_code == 200:
-        return response.json()  # Возвращаем JSON-ответ
-    else:
-        response.raise_for_status()  # Генерируем исключение для ошибок
+    url = f"https://api.apilayer.com/exchangerates_data/convert?to={to_currency}&from={from_currency}&amount={value}"
+    headers = {"apikey": API_KEY}
 
+    try:
+        response = requests.get(url, headers=headers)
+        status_code = response.status_code
 
-def transaction_info(transaction: list[dict]) -> float:
-    '''Вывод суммы транзакции'''
-    for item in transaction:
-        if item['operationAmount']['currency']['code'] == 'RUB':
-            money = item['operationAmount']['amount']
-            return money
-        elif item['operationAmount']['currency']['code'] == 'USD':
-            convert = item['operationAmount']['amount']
-            input = item['operationAmount']['currency']['code']
-            output = 'RUB'
-            result_dict = currency_exchange(input, output, convert)
-            money = result_dict['result']
-
-            return money
-
-
-transaction = [
-
-{
-    "id": 41428829,
-    "state": "EXECUTED",
-    "date": "2019-07-03T18:35:29.512364",
-    "operationAmount": {
-      "amount": "8221.37",
-      "currency": {
-        "name": "USD",
-        "code": "USD"
-      }
-    },
-    "description": "Перевод организации",
-    "from": "MasterCard 7158300734726758",
-    "to": "Счет 35383033474447895560"
-  }]
-
-result=transaction_info(transaction)
-print(result)
-
-
-
-
-
-
-
-
+        if status_code == 200:
+            return response.json()["result"]
+        else:
+            print(f"Запрос не был успешным. Возможная причина: {response.reason}")
+            return 0.0
+    except requests.exceptions.RequestException:
+        print("Произошла ошибка, видимо в коде некорректные данные")
+        return 0.0

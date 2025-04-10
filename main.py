@@ -36,24 +36,47 @@ from typing import Any
 
 from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
 
-new_list_usd_transactions: list[dict[str, Any]] = []
-usd_transactions = iter(filter_by_currency(new_list_usd_transactions, "USD"))
-for _ in range(2):
-    try:
-        print(next(usd_transactions))
-    except StopIteration:
-        print("Больше нет данных")
-        break
+# new_list_usd_transactions: list[dict[str, Any]] = []
+# usd_transactions = iter(filter_by_currency(new_list_usd_transactions, "USD"))
+# for _ in range(2):
+#     try:
+#         print(next(usd_transactions))
+#     except StopIteration:
+#         print("Больше нет данных")
+#         break
+#
+#
+# new_list_usd_transactions_2: list[dict[str, Any]] = []
+# descriptions = transaction_descriptions(new_list_usd_transactions_2)
+#
+# for _ in range(5):
+#     try:
+#         print(next(descriptions))
+#     except StopIteration:
+#         print("Больше нет данных")
+#         break
+# for card in card_number_generator(1, 5):
+#     print(card)
+
+import os
+from dotenv import load_dotenv
+from src.external_api import convert_amount
+# Пример использования функции
+transactions_finance = {
+    "id": 441945886,
+    "state": "EXECUTED",
+    "date": "2019-08-26T10:50:58.294041",
+    "operationAmount": {
+        "amount": "31957.58",
+        "currency": {
+            "code": "USD"
+        }
+    }
+}
 
 
-new_list_usd_transactions_2: list[dict[str, Any]] = []
-descriptions = transaction_descriptions(new_list_usd_transactions_2)
-
-for _ in range(5):
-    try:
-        print(next(descriptions))
-    except StopIteration:
-        print("Больше нет данных")
-        break
-for card in card_number_generator(1, 5):
-    print(card)
+# Загрузка переменных из .env-файла
+load_dotenv()
+API_KEY = os.getenv("API_KEY")
+converted_amount = convert_amount(transactions_finance)
+print(converted_amount)

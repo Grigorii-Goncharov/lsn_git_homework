@@ -8,8 +8,9 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 file_path = os.path.join(script_dir, "../data/operations.json")
 
 
-def read_file(filename: list[dict])-> list[dict]:
-    '''Функция чтения файла JSON'''
+def read_file(filename=None):
+    """Функция для чтения JSON-файла и обработки возможных ошибок при его открытии и чтении"""
+
     try:
         with open(filename, "r", encoding="utf-8") as f:
             data = json.load(f)
