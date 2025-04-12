@@ -1,11 +1,13 @@
 import json
-import os
 import logging
+import os
 
+# логгер к текущему модулю
 logger = logging.getLogger(__name__)
 file_handler = logging.FileHandler(
-    os.path.join(os.path.dirname(__file__), "../logs", "utils.log"), mode="w", encoding="utf-8")
-file_formatter = logging.Formatter('%(asctime)s %(filename)s %(funcName)s %(levelname)s: %(message)s')
+    os.path.join(os.path.dirname(__file__), "../logs", "utils.log"), mode="w", encoding="utf-8"
+)
+file_formatter = logging.Formatter("%(asctime)s %(filename)s %(funcName)s %(levelname)s: %(message)s")
 file_handler.setFormatter(file_formatter)
 logger.addHandler(file_handler)
 logger.setLevel(logging.DEBUG)
@@ -28,11 +30,11 @@ def read_file(filename=None):
         return data
 
     except FileNotFoundError:
-        logger.error(f'Файл не найден по пути: {filename}')
+        logger.error(f"Файл не найден по пути: {filename}")
         print(f"Файл не найден по пути: {filename}")
         return []
 
     except json.JSONDecodeError:
-        logger.error(f'Ошибка при декодировании JSON из файла: {filename}')
+        logger.error(f"Ошибка при декодировании JSON из файла: {filename}")
         print(f"Ошибка при декодировании JSON из файла: {filename}")
         return []
