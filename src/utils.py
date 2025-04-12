@@ -1,5 +1,19 @@
-import json
+import logging
 import os
+
+# Получаем путь к текущему скрипту
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Определяем путь к файлу относительно текущего скрипта
+file_path = os.path.join(script_dir, "../logs/utils.log")
+
+# логер к текущему модулю
+loger = logging.getLogger(__name__)
+file_handler = logging.FileHandler(file_path, encoding = 'utf-8')
+file_formatter = logging.Formatter('%(asctime)s %(filename)s %(funcName)s %(levelname)s: %(message)s')
+file_handler.setFormatter(file_formatter)
+loger.addHandler(file_handler)
+loger.setLevel(logging.DEBUG)
 
 # Получаем путь к текущему скрипту
 script_dir = os.path.dirname(os.path.abspath(__file__))
