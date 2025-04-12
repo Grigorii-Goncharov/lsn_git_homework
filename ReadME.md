@@ -16,7 +16,9 @@
 -   `filter_by_currency(transactions: list[dict[str, Any]], currency: str = "USD") -> Iterator[dict[str, Any]]`: Выдает транзакции если они соответствуют заданной валюте
 -   `transaction_descriptions(transactions: list[dict[str, Any]]) -> Iterator[str]`: Возвращает описание каждой операции (транзакции) по очереди
 -   `card_number_generator(start: int, stop: int) -> Generator[str, None, None]`: Генератор номеров банковских карт в формате XXXX XXXX XXXX XXXX, где X— цифра номера карты и возвращает номера корт"
--   `def log(filename="mylog.txt")`: Декоратор функций, который производит логирование работы функций.    
+-   `def log(filename="mylog.txt")`: Декоратор функций, который производит логирование работы функций. 
+-   `Модуль utils содержит функцию открытия и чтения JSON файла 
+-   `convert_amount(transactions_finance, to_currency="RUB")`: Функция конвертации валют в другую валюту, по умолчанию конвертирует в RUB. 
 ## Установка
 
 Для установки и запуска проекта необходимо выполнить следующие шаги:

@@ -1,5 +1,7 @@
 import pytest
+
 from src.decorators import log
+
 
 def test_successful_execution_console_logging(capsys):
     """Тест успешного выполнения с выводом в консоль"""
@@ -15,8 +17,8 @@ def test_successful_execution_console_logging(capsys):
 
     # Проверяем вывод в консоль
     console_view = capsys.readouterr()
-    assert "add Запуск Ok. Входные параметры: (2, 3), {}" in  console_view.out
-    assert "add Завершение. Результат: 5" in  console_view.out
+    assert "add Запуск Ok. Входные параметры: (2, 3), {}" in console_view.out
+    assert "add Завершение. Результат: 5" in console_view.out
 
 
 def test_failed_execution_console_logging(capsys):
@@ -31,6 +33,5 @@ def test_failed_execution_console_logging(capsys):
 
     # Проверяем вывод в консоль
     console_view = capsys.readouterr()
-    assert "divide Ошибка: division by zero" in  console_view.out
-    assert "Входные параметры: (10, 0), {}" in  console_view.out
-
+    assert "divide Ошибка: division by zero" in console_view.out
+    assert "Входные параметры: (10, 0), {}" in console_view.out
