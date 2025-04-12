@@ -68,9 +68,3 @@ def get_mask_account(account_number: str) -> str:
     loger.info(f"Сгенерирована маска счета: {masked_account_number}")
 
     return masked_account_number
-
-card_number = "1234567890123456"
-masked_card = get_mask_card_number(card_number)
-
-account_number = "12345678901234567890"
-masked_account = get_mask_account(account_number)
