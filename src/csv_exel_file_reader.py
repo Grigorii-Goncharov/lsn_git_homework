@@ -27,7 +27,7 @@ def read_excel_file(file_path: str) -> List[Dict[str, Any]]:
         # Читаем Excel файл
         df = pd.read_excel(file_path)
         # Преобразуем DataFrame в список словарей (по одному на строку)
-        transaction_list: List[Dict[str, Any]] = df.to_dict(orient="records")
+        transaction_list = df.to_dict(orient="records")
         return transaction_list
     except FileNotFoundError:
         print(f"Файл не найден по пути: {file_path}")
