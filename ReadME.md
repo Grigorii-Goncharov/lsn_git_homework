@@ -17,8 +17,9 @@
 -   `transaction_descriptions(transactions: list[dict[str, Any]]) -> Iterator[str]`: Возвращает описание каждой операции (транзакции) по очереди
 -   `card_number_generator(start: int, stop: int) -> Generator[str, None, None]`: Генератор номеров банковских карт в формате XXXX XXXX XXXX XXXX, где X— цифра номера карты и возвращает номера корт"
 -   `def log(filename="mylog.txt")`: Декоратор функций, который производит логирование работы функций. 
--   `Модуль utils содержит функцию открытия и чтения JSON файла 
--   `convert_amount(transactions_finance, to_currency="RUB")`: Функция конвертации валют в другую валюту, по умолчанию конвертирует в RUB. 
+-   `Модуль utils` содержит функцию открытия и чтения JSON файла 
+-   `convert_amount(transactions_finance, to_currency="RUB")`: Функция конвертации валют в другую валюту, по умолчанию конвертирует в RUB.
+-   `Модуль csv_exel_file_reader `содержит функции `read_csv_file` и `read_excel_file` для чтения CSV и EXCEL файлов
 ## Установка
 
 Для установки и запуска проекта необходимо выполнить следующие шаги:
@@ -44,6 +45,8 @@
     poetry add --group lint black
     poetry add --group lint isort
     poetry add --group dev pytest
+    poetry add --group dev pytest
+    poetry add pandas 
     ```
 
 ## Использование
