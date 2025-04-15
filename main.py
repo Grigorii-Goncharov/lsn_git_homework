@@ -58,25 +58,39 @@ from src.generators import card_number_generator, filter_by_currency, transactio
 # for card in card_number_generator(1, 5):
 #     print(card)
 
+
+# Пример использования функции модуля external_api:
+
 import os
 from dotenv import load_dotenv
 from src.external_api import convert_amount
-# Пример использования функции
-transactions_finance = {
-    "id": 441945886,
-    "state": "EXECUTED",
-    "date": "2019-08-26T10:50:58.294041",
-    "operationAmount": {
-        "amount": "31957.58",
-        "currency": {
-            "code": "USD"
-        }
-    }
-}
 
+# transactions_finance = {
+#     "id": 441945886,
+#     "state": "EXECUTED",
+#     "date": "2019-08-26T10:50:58.294041",
+#     "operationAmount": {
+#         "amount": "31957.58",
+#         "currency": {
+#             "code": "USD"
+#         }
+#     }
+# }
+#
+#
+# # Загрузка переменных из .env-файла
+# load_dotenv()
+# API_KEY = os.getenv("API_KEY")
+# converted_amount = convert_amount(transactions_finance)
+# print(converted_amount)
 
-# Загрузка переменных из .env-файла
-load_dotenv()
-API_KEY = os.getenv("API_KEY")
-converted_amount = convert_amount(transactions_finance)
-print(converted_amount)
+# Пример использования модуля csv_exel_file_reader.py
+# Ниже Абсолютные пути
+# file_path = os.path.join(os.path.dirname(__file__), "../data", "transactions.csv")
+# file_path2 = os.path.join(os.path.dirname(__file__), "../data", "transactions_excel.xlsx")
+
+from src.csv_exel_file_reader import read_excel_file, read_csv_file
+from config import PATH_TO_EXCEL,PATH_TO_CSV
+
+print(read_excel_file(PATH_TO_EXCEL))
+print(read_csv_file(PATH_TO_CSV))
