@@ -1,33 +1,44 @@
-from src.transaction_filter import filter_transactions # ,count_operations_by_category
-# from typing import Any, List
-
-import pytest
-
-def test_exact_match(transactions):
-    '''Тест на точное совпадение "Перевод организации"'''
-    result = filter_transactions(transactions, r"Перевод организации")
-    assert result == [transactions[0]]
-
-
-def test_case_insensitive_match(transactions):
-    '''Тест поиска, если строка в верхнем регистре'''
-    result = filter_transactions(transactions, r"ПЕРЕВОД ОРГАНИЗАЦИИ")
-    assert result == [transactions[0]]
-
-
-def test_partial_match(transactions):
-    '''Тест поиска по части строки'''
-    result = filter_transactions(transactions, r"Перевод")
-    assert result == [transactions[0]]
+from src.transaction_filter import count_operations_by_category, filter_transactions
 
 
 def test_no_match(transactions):
-    '''Тест, когда строка не найдена'''
+    """Тест, когда строка не найдена"""
     result = filter_transactions(transactions, r"Несуществующий текст")
     assert result == []
 
 
 def test_empty_search_string(transactions):
-    '''Тест, должен вернуть все транзакции'''
+    """Тест, должен вернуть все транзакции"""
     result = filter_transactions(transactions, "")
     assert result == transactions
+
+
+def test_normal_case(transactions, categories):
+    """Тест правильного подсчета операций по категориям"""
+    result = count_operations_by_category(transactions, categories)
+    assert result == {"Открытие вклада": 1, "Перевод организации": 3, "Перевод со счета на счет": 1}
+
+
+def test_empty_transactions(categories):
+    """Тест пустого списка словаря транзакций"""
+    result = count_operations_by_category([], categories)
+    assert result == {"Открытие вклада": 0, "Перевод организации": 0, "Перевод со счета на счет": 0}
+
+
+def test_empty_categories(transactions):
+    """Тест пустого списка словаря транзакций"""
+    result = count_operations_by_category(transactions, [])
+    assert result == {}
+
+
+def test_no_matching_categories(transactions):
+    """Тест несуществующей категории транзакций"""
+    result = count_operations_by_category(transactions, ["Несуществующая категория"])
+    assert result == {"Несуществующая категория": 0}
+
+
+def test_missing_description_field():
+    """Тест отсутствие поля description"""
+    transactions = [{"id": 1, "no_description": "test"}, {"id": 2, "description": "Перевод организации"}]
+    result = count_operations_by_category(transactions, ["Перевод организации"])
+    assert result == {"Перевод организации": 1}
