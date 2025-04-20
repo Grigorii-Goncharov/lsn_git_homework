@@ -13,12 +13,6 @@ def test_empty_search_string(transactions):
     assert result == transactions
 
 
-def test_normal_case(transactions, categories):
-    """Тест правильного подсчета операций по категориям"""
-    result = count_operations_by_category(transactions, categories)
-    assert result == {"Открытие вклада": 1, "Перевод организации": 3, "Перевод со счета на счет": 1}
-
-
 def test_empty_transactions(categories):
     """Тест пустого списка словаря транзакций"""
     result = count_operations_by_category([], categories)

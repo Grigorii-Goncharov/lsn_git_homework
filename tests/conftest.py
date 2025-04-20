@@ -134,7 +134,7 @@ def transactions():
 
 
 @pytest.fixture
-def transactions():
+def transactions2():
     return [
         {"id": 441945886, "description": "Перевод организации"},
         {"id": 41428829, "description": "Перевод организации"},
