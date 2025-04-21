@@ -132,9 +132,11 @@ def main():
     if sort_choice == "да":
         while True:
             sort_order = input("Отсортировать по возрастанию или по убыванию? ").lower().strip()
-            if sort_order in ["по возрастанию", "по убыванию"]:
-                sort_order == "по убыванию"
-                transactions = sort_by_date(transactions, True)
+            if sort_order == "по возрастанию":
+                transactions = sort_by_date(transactions)
+                break
+            elif sort_order == "по убыванию":
+                transactions = sort_by_date(transactions, False)
                 break
 
         # Фильтрация по ключевому слову
@@ -163,6 +165,7 @@ def main():
 
     if transactions:  # Только если есть транзакции
         show_statistics(transactions)
+
 
 
 if __name__ == "__main__":

@@ -3,23 +3,16 @@ from typing import Any, Dict, List
 
 import pandas as pd
 
-
 def read_csv_file(file_path: str, delimiter: str = ";") -> List[Dict]:
-    """Функция для считывания финансовых операций из CSV файла и возврата списка словарей"""
-    transaction_list = []
-    try:
-        with open(file_path, "r", encoding="utf-8") as file:
-            reader = csv.DictReader(file, delimiter=delimiter)  # Читаем как словари
-            for row in reader:
-                transaction_list.append(row)
-        return transaction_list
-    except FileNotFoundError:
-        print(f"Файл не найден по пути: {file_path}")
-        return []
-    except Exception as e:
-        print(f"Произошла непредвиденная ошибка: {e}")
-        return []
-
+        try:
+            df = pd.read_csv(file_path, delimiter=delimiter)
+            return df.to_dict(orient="records")
+        except FileNotFoundError:
+            print(f"Ошибка: файл {file_path} не найден!")
+            return []
+        except Exception as e:
+            print(f"Ошибка при чтении CSV: {e}")
+            return []
 
 def read_excel_file(file_path: str) -> List[Dict[str, Any]]:
     """Функция для считывания финансовых операций из XLSX-файла и возврата списка словарей."""
