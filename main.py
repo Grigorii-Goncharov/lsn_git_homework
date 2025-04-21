@@ -4,6 +4,7 @@ from src.processing import filter_by_state, sort_by_date
 from src.transaction_filter import count_operations_by_category, filter_transactions
 from src.utils import read_file
 from src.widget import get_date, mask_account_card
+from src.generators import filter_by_currency
 
 
 def format_transaction(transaction):
@@ -151,6 +152,16 @@ def main():
 
         else:
             print("Не корректные данные")
+
+        # Фильтрация по рублевым транзакциям
+        while True:
+            filter_word = input("\nВыводить только RUB транзакции? (Да/Нет): ").lower().strip()
+            if filter_word in ["да", "нет"]:
+                break
+
+            if filter_word == "да":
+                transactions = filter_by_currency(transactions, "RUB")
+                print(transactions)
 
     # Вывод результатов
     print("\nРаспечатываю итоговый список транзакций...\n")
