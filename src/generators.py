@@ -1,12 +1,28 @@
 from typing import Any, Generator, Iterator
 
 
-def filter_by_currency(transactions: list[dict[str, Any]], currency: str = "USD") -> Iterator[dict[str, Any]]:
-    """Функция перебора списка словарей, она принимает на вход список словарей и возвращает
-    итератор который выдает транзакции если они соответствуют заданной валюте"""
+# def filter_by_currency(transactions: list[dict[str, Any]], currency: str = "USD") -> Iterator[dict[str, Any]]:
+#     """Функция перебора списка словарей, она принимает на вход список словарей и возвращает
+#     итератор который выдает транзакции если они соответствуют заданной валюте"""
+#
+#     for transaction in transactions:
+#         if transaction["operationAmount"]["currency"]["code"] == currency:
+#             yield transaction
 
+def filter_by_currency(transactions, currency="USD"):
+    currency = currency.upper()  # Нормализуем входную валюту
     for transaction in transactions:
-        if transaction["operationAmount"]["currency"]["code"] == currency:
+        # JSON-формат
+        if (
+            "operationAmount" in transaction
+            and isinstance(transaction["operationAmount"], dict)
+            and "currency" in transaction["operationAmount"]
+            and isinstance(transaction["operationAmount"]["currency"], dict)
+            and str(transaction["operationAmount"]["currency"].get("code", "")).upper() == currency
+        ):
+            yield transaction
+        # CSV/Excel-формат
+        elif str(transaction.get("currency_code", "")).upper() == currency:
             yield transaction
 
 

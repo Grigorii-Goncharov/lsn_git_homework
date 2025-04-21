@@ -147,7 +147,7 @@ def main():
                 break
 
         if filter_word == "да":
-            keyword = input("Введите слово для фильтрации: ").strip()
+            keyword = input("Введите слово для фильтрации (Перевод с карты на карту, Перевод со счета на счет): ").strip()
             transactions = filter_transactions(transactions, keyword)
 
         else:
@@ -159,9 +159,11 @@ def main():
             if filter_word in ["да", "нет"]:
                 break
 
-            if filter_word == "да":
-                transactions = filter_by_currency(transactions, "RUB")
-                print(transactions)
+        if filter_word == "да":
+            transactions = list(filter_by_currency(transactions, "RUB"))
+        else:
+            user_currency = (input("Введите слово для фильтрации валюты: USD, EUR: ")).upper().strip()
+            transactions = list(filter_by_currency(transactions, user_currency))
 
     # Вывод результатов
     print("\nРаспечатываю итоговый список транзакций...\n")
