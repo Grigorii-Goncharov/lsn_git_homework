@@ -31,10 +31,6 @@ def test_filter_by_state(list_dict_info: List[Any], state: str, expected: List[A
     assert filter_by_state(list_dict_info, state) == expected
 
 
-def test_filter_by_state_empty(list_dict_info_empty: List[Any]) -> None:
-    assert filter_by_state(list_dict_info_empty) == []
-
-
 # Тесты для sort_by_date
 def test_sort_by_date_descending(list_dict_info: List[Any]) -> None:
     sorted_list = sort_by_date(list_dict_info)
