@@ -12,18 +12,14 @@ from typing import Any, Generator, Iterator
 def filter_by_currency(transactions, currency="USD"):
     currency = currency.upper()  # Нормализуем входную валюту
     for transaction in transactions:
-        # JSON-формат
-        if (
-            "operationAmount" in transaction
-            and isinstance(transaction["operationAmount"], dict)
-            and "currency" in transaction["operationAmount"]
-            and isinstance(transaction["operationAmount"]["currency"], dict)
-            and str(transaction["operationAmount"]["currency"].get("code", "")).upper() == currency
-        ):
-            yield transaction
-        # CSV/Excel-формат
-        elif str(transaction.get("currency_code", "")).upper() == currency:
-            yield transaction
+        if "operationAmount" in transaction:
+            code = transaction.get("operationAmount").get("currency").get("code").upper()
+            if code == currency:
+                yield transaction
+        else:
+            code = transaction.get("currency_code").upper()
+            if code == currency:
+                yield transaction
 
 
 def transaction_descriptions(transactions: list[dict[str, Any]]) -> Iterator[str]:
